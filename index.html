@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+    <title>chrome easter egg: t-rex runner</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> 
+    <script src="index.js"></script>
+</head>
+
+<body id="t" class="offline">
+    <div id="messageBox" class="sendmessage">
+         <h1 style="text-align: center;font-family: 'Open Sans', sans-serif;">Press Space to start</h1>
+         <div class="niokbutton" onclick="okbuttonsend()"></div>
+    </div>
+    <div id="main-frame-error" class="interstitial-wrapper">
+        <div id="main-content">
+            <div class="icon icon-offline" alt=""></div>
+        </div>
+        <div id="offline-resources">
+            <img id="offline-resources-1x" src="assets/default_100_percent/100-offline-sprite.png">
+            <img id="offline-resources-2x" src="assets/default_200_percent/200-offline-sprite.png">
+            <template id="audio-resources">
+                <audio id="offline-sound-press" src="assets/jump.ogg"></audio>
+                <audio id="offline-sound-hit" src="assets/hit.ogg"></audio>
+            </template>
+        </div>
+    </div>
+
+    <!-- 点击特效容器 -->
+    <div id="click-effects-container" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999;"></div>
+
+    <script>
+        // 点击特效功能
+        function createClickEffect(x, y) {
+            const effectContainer = document.getElementById('click-effects-container');
+            const effect = document.createElement('div');
+            
+            // 随机颜色
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7', '#dda0dd', '#98d8c8', '#f7dc6f'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            effect.textContent = '嗷~';
+            effect.style.cssText = `
+                position: absolute;
+                left: ${x}px;
+                top: ${y}px;
+                color: ${randomColor};
+                font-size: 24px;
+                font-weight: bold;
+                pointer-events: none;
+                z-index: 10000;
+                transform: translate(-50%, -50%);
+                animation: clickEffect 1s ease-out forwards;
+            `;
+            
+            effectContainer.appendChild(effect);
+            
+            // 1秒后移除元素
+            setTimeout(() => {
+                if (effect.parentNode) {
+                    effect.parentNode.removeChild(effect);
+                }
+            }, 1000);
+        }
+        
+        // 添加CSS动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes clickEffect {
+                0% {
+                    opacity: 1;
+                    transform: translate(-50%, -50%) translateY(0px);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translate(-50%, -50%) translateY(-50px);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // 监听点击事件
+        document.addEventListener('click', function(e) {
+            createClickEffect(e.clientX, e.clientY);
+        });
+        
+        // 监听触摸事件（移动端）
+        document.addEventListener('touchstart', function(e) {
+            if (e.touches.length > 0) {
+                createClickEffect(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        });
+    </script>
+</body>
+
+</html>
+
