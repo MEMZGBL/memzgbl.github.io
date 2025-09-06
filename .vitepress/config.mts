@@ -68,8 +68,8 @@ export default defineConfigWithTheme<ThemeConfig>({
   // sitemap: {
   //   hostname: 'https://vitepress-theme-bluearchive.vercel.app',
   // },
-  title: "Sensei's 部落格",
-  description: "Sensei's 部落格",
+  title: "MEMZGBL的博客",
+  description: "MEMZGBL的博客",
   themeConfig: {
     // navBar
     menuList: [
@@ -79,13 +79,13 @@ export default defineConfigWithTheme<ThemeConfig>({
 
     //banner区配置
     videoBanner: false,
-    name: "Sensei's 部落格",
-    welcomeText: 'Hello, VitePress',
+    name: "MEMZGBL的博客",
+    welcomeText: 'Welcome come to my blog',
     motto: ['和你的日常，就是奇迹', '何気ない日常で、ほんの少しの奇跡を見つける物語。'],
     social: [
-      { icon: 'github', url: 'https://github.com/' },
-      { icon: 'bilibili', url: 'https://www.bilibili.com/' },
-      { icon: 'qq', url: 'https://im.qq.com/index/' },
+      { icon: 'github', url: 'https://github.com/MEMZGBL' },
+      { icon: 'bilibili', url: 'https://space.bilibili.com/326402501' },
+      { icon: 'qq', url: 'https://qm.qq.com/cgi-bin/qm/qr?k=sXi3DtyVhFV-3CmqPoKicc4MCJqR0hgj' },
       { icon: 'wechat', url: 'https://weixin.qq.com/' },
     ],
 
