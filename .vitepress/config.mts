@@ -93,9 +93,9 @@ export default defineConfigWithTheme<ThemeConfig>({
     spineVoiceLang: 'jp',
 
     //footer配置
-    footerName: 'Sensei',
+    footerName: 'MEMZGBL',
     poweredList: [
-      { name: 'VitePress', url: 'https://github.com/vuejs/vitepress' },
+      { name: 'MEMZGBL', url: 'https://github.com/MEMZGBL' },
       { name: 'GitHub Pages', url: 'https://docs.github.com/zh/pages' },
     ],
 
