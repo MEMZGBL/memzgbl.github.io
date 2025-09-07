@@ -100,11 +100,11 @@ export default defineConfigWithTheme<ThemeConfig>({
     ],
 
     //gitalk配置
-    clientID: 'Ov23lia9U9wFN3WMyoKK',
-    clientSecret: 'b2418ab598c188c43a247c99e728dd2735d58c3b',
-    repo: 'vitepress-theme-bluearchive',
-    owner: 'Alittfre',
-    admin: ['Alittfre'],
+    clientID: 'Ov23liLPUWgNN8pfBRdw',
+    clientSecret: '9dd7dfada427926d0ab3205ff6e9b7ad7e1207bf',
+    repo: 'memzgblgitalk',
+    owner: 'MEMZGBL',
+    admin: ['MEMZGBL'],
   },
   markdown: {
     theme: 'solarized-dark',
