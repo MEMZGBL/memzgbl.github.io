@@ -1,19 +1,20 @@
 ---
-title: 提问的智慧
+title: Markdown语法
 date: 2018-07-24
 tags: [Foo, Bar]
 head:
   - - meta
     - name: description
-      content: vitepress-theme-bluearchive 提问的智慧
+      content: vitepress-theme-bluearchive Markdown语法
   - - meta
     - name: keywords
-      content: vitepress theme bluearchive 提问的智慧
+      content: vitepress theme bluearchive Markdown语法
 ---
 
-提问的智慧
+markdown语法测试awa
 
 ---
+
 #提问的智慧
 
 ###引言
@@ -38,7 +39,7 @@ head:
 
 如果你决定向我们求助，你不会想成为一名失败者，你也不想被看成一个失败者。得到快速有效回答的最好方法是使提问者看起来象个聪明、自信和有想法的人，并且暗示只是碰巧在某一特别问题上需要帮助。
 
-（欢迎对本文指正，可以将建议发至 memzgbl@outlook.com。 请注意，本文不想成为一般性的 网络礼仪 指南，我一般会拒绝那些与引出技术论坛中有用的回答不特别相关的建议。）
+（欢迎对本文指正，可以将建议发至 esr@thyrsus.com 或 respond-auto@linuxmafia.com。 请注意，本文不想成为一般性的 网络礼仪 指南，我一般会拒绝那些与引出技术论坛中有用的回答不特别相关的建议。）
 
 ###提问前
 
