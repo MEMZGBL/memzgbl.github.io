@@ -90,7 +90,7 @@ export default defineConfigWithTheme<ThemeConfig>({
     ],
 
     //spine语音配置，可选zh/jp
-    spineVoiceLang: 'jp',
+    spineVoiceLang: 'zh',
 
     //footer配置
     footerName: 'MEMZGBL',
