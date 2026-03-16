@@ -100,8 +100,8 @@ export default defineConfigWithTheme<ThemeConfig>({
     ],
 
     //gitalk配置
-    clientID: 'Ov23liLPUWgNN8pfBRdw',
-    clientSecret: '9dd7dfada427926d0ab3205ff6e9b7ad7e1207bf',
+    clientID: 'Ov23li4NKrCxRo1Qm7G6',
+    clientSecret: '95bd5ed02e057fda8a50000a0ec1c57c1ddb74f4',
     repo: 'memzgblgitalk',
     owner: 'MEMZGBL',
     admin: ['MEMZGBL'],
