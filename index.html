@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kskbl,zdjd</title>
+    <!-- 引入字体，增加科技感 -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet" />
+    <style>
+        /* 全局重置 & 背景 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="30" viewBox="0 0 24 30"><text font-family="Arial" font-size="20" fill="gold" x="0" y="20">⚡</text></svg>') 12 0, auto;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Orbitron', 'Courier New', monospace;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ---- 背景：动态网格 + 扫描线 ---- */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                linear-gradient(rgba(255, 215, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 215, 0, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg,
+                    rgba(0, 0, 0, 0.15) 0px,
+                    rgba(0, 0, 0, 0.15) 2px,
+                    transparent 2px,
+                    transparent 6px);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ---- 主卡片：故障风格边框 ---- */
+        .glitch-card {
+            position: relative;
+            z-index: 10;
+            background: rgba(10, 10, 10, 0.75);
+            backdrop-filter: blur(6px);
+            border: 2px solid #ffd700;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3), inset 0 0 30px rgba(255, 215, 0, 0.05);
+            padding: 40px 50px 50px;
+            max-width: 700px;
+            width: 90%;
+            text-align: center;
+            border-radius: 20px;
+            animation: borderFlicker 0.15s infinite alternate;
+            transition: all 0.3s ease;
+        }
+
+        @keyframes borderFlicker {
+            0% {
+                border-color: #ffd700;
+                box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            }
+            100% {
+                border-color: #ff4d4d;
+                box-shadow: 0 0 50px rgba(255, 70, 70, 0.5);
+            }
+        }
+
+        /* ---- 故障标题 Glitch Text ---- */
+        .glitch-title {
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 40px #ff4d4d;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 10px;
+            animation: glitchText 1.8s infinite;
+        }
+
+        .glitch-title::before,
+        .glitch-title::after {
+            content: 'KSKBL';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+
+        .glitch-title::before {
+            color: #ff4d4d;
+            z-index: -1;
+            transform: translate(-3px, -2px);
+            animation: glitchShift 0.2s infinite alternate;
+        }
+
+        .glitch-title::after {
+            color: #00ffff;
+            z-index: -2;
+            transform: translate(3px, 2px);
+            animation: glitchShift 0.25s infinite alternate-reverse;
+        }
+
+        @keyframes glitchShift {
+            0% {
+                transform: translate(-3px, -2px);
+            }
+            100% {
+                transform: translate(4px, 3px);
+            }
+        }
+
+        @keyframes glitchText {
+            0%,
+            90%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            92% {
+                opacity: 0.7;
+                transform: scale(1.01) skewX(-2deg);
+            }
+            94% {
+                opacity: 1;
+                transform: scale(0.99) skewX(2deg);
+            }
+            96% {
+                opacity: 0.8;
+                transform: scale(1.02);
+            }
+        }
+
+        /* ---- 副标题 ---- */
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ffd700;
+            letter-spacing: 8px;
+            margin-bottom: 25px;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+            font-family: 'Courier New', monospace;
+            border-top: 1px dashed rgba(255, 215, 0, 0.3);
+            border-bottom: 1px dashed rgba(255, 215, 0, 0.3);
+            padding: 10px 0;
+            animation: subtitlePulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes subtitlePulse {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.4;
+            }
+        }
+
+        /* ---- 图片容器：圣光降临 ---- */
+        .image-wrapper {
+            position: relative;
+            display: inline-block;
+            margin: 15px 0 20px;
+            border-radius: 50%;
+            padding: 8px;
+            background: radial-gradient(circle, #ffd700, #ff4d4d, #0a0a0a);
+            animation: glowPulse 1.2s ease-in-out infinite alternate;
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.4);
+        }
+
+        @keyframes glowPulse {
+            0% {
+                box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+                transform: scale(0.98);
+            }
+            100% {
+                box-shadow: 0 0 90px rgba(255, 70, 70, 0.7);
+                transform: scale(1.02);
+            }
+        }
+
+        .image-wrapper img {
+            display: block;
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #0a0a0a;
+            transition: all 0.4s ease;
+            filter: saturate(1.2) contrast(1.1);
+        }
+
+        .image-wrapper img:hover {
+            transform: scale(1.05) rotate(-3deg);
+            filter: saturate(1.6) contrast(1.3) drop-shadow(0 0 20px gold);
+        }
+
+        /* ---- 弹幕墙 ---- */
+        .danmaku-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            overflow: hidden;
+        }
+
+        .danmaku {
+            position: absolute;
+            white-space: nowrap;
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 20px currentColor;
+            animation: danmakuMove linear infinite;
+            opacity: 0.7;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            will-change: transform;
+        }
+
+        /* 每条弹幕颜色不同，速度不同 */
+        .danmaku:nth-child(1) {
+            color: #ff4d4d;
+            font-size: 2.2rem;
+            top: 10%;
+            animation-duration: 12s;
+            animation-delay: 0s;
+        }
+        .danmaku:nth-child(2) {
+            color: #00ffff;
+            font-size: 1.8rem;
+            top: 22%;
+            animation-duration: 16s;
+            animation-delay: 2s;
+        }
+        .danmaku:nth-child(3) {
+            color: #ffd700;
+            font-size: 2.5rem;
+            top: 35%;
+            animation-duration: 14s;
+            animation-delay: 4s;
+        }
+        .danmaku:nth-child(4) {
+            color: #ff69b4;
+            font-size: 1.9rem;
+            top: 50%;
+            animation-duration: 18s;
+            animation-delay: 1s;
+        }
+        .danmaku:nth-child(5) {
+            color: #7fff00;
+            font-size: 2.0rem;
+            top: 65%;
+            animation-duration: 13s;
+            animation-delay: 3s;
+        }
+        .danmaku:nth-child(6) {
+            color: #ffa500;
+            font-size: 2.3rem;
+            top: 78%;
+            animation-duration: 15s;
+            animation-delay: 5s;
+        }
+        .danmaku:nth-child(7) {
+            color: #ff1493;
+            font-size: 1.7rem;
+            top: 90%;
+            animation-duration: 17s;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes danmakuMove {
+            0% {
+                transform: translateX(100vw);
+                opacity: 0;
+            }
+            5% {
+                opacity: 0.9;
+            }
+            90% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+        }
+
+        /* ---- 底部状态栏：直播抽象信息 ---- */
+        .status-bar {
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #aaa;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            padding-top: 18px;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .status-bar .live {
+            color: #ff4d4d;
+            font-weight: 900;
+            animation: liveBlink 0.8s step-end infinite;
+            text-shadow: 0 0 20px #ff4d4d;
+        }
+
+        @keyframes liveBlink {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.2;
+            }
+        }
+
+        .status-bar .viewer {
+            color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+            padding: 4px 14px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .status-bar .tag {
+            color: #00ffff;
+            background: rgba(0, 255, 255, 0.08);
+            padding: 4px 14px;
+            border-radius: 30px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        /* ---- 鼠标粒子（抽象特效） ---- */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* ---- 响应式 ---- */
+        @media (max-width: 600px) {
+            .glitch-card {
+                padding: 25px 20px 30px;
+            }
+            .glitch-title {
+                font-size: 2.8rem;
+                letter-spacing: 3px;
+            }
+            .subtitle {
+                font-size: 0.9rem;
+                letter-spacing: 4px;
+            }
+            .image-wrapper img {
+                width: 140px;
+                height: 140px;
+            }
+            .danmaku {
+                font-size: 1.2rem !important;
+            }
+            .status-bar {
+                font-size: 0.7rem;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 弹幕层 -->
+    <div class="danmaku-container">
+        <div class="danmaku">💀 康神开播了 💀</div>
+        <div class="danmaku">💀 zmjjkk 💀</div>
+        <div class="danmaku">💀 zdjd 💀</div>
+        <div class="danmaku">💀 真的假的 💀</div>
+        <div class="danmaku">💀 kskbl 💀</div>
+    </div>
+
+    <!-- 鼠标粒子 Canvas -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- 主卡片 -->
+    <div class="glitch-card">
+        <!-- 故障标题 -->
+        <h1 class="glitch-title">kskbl</h1>
+        <div class="subtitle">💀 康 神 开 播 了 💀</div>
+
+        <!-- 康神头像 (使用网络上的高清图) -->
+        <div class="image-wrapper">
+            <img
+            src="https://picsum.photos/seed/zmjjkk/400/400"
+            alt="ZmjjKK 康神"
+            title="康神驾到！"
+            />
+        </div>
+
+        <!-- 抽象状态栏 -->
+        <div class="status-bar">
+            <span class="live">● LIVE</span>
+            <span class="viewer">懂你意思</span>
+            <span class="tag">#KSKBL</span>
+        </div>
+
+        <!-- 脚注小字，增加抽象感 -->
+        <div style="margin-top:18px; font-size:0.7rem; color:#555; font-family:'Courier New',monospace; letter-spacing:2px; border-top:1px dashed rgba(255,215,0,0.1); padding-top:14px;">
+            ⚡ 都是同龄人我原本没想酱味大鸡！ ⚡
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // 1. 鼠标粒子特效 (抽象核心)
+        // ============================================================
+        (function() {
+            const canvas = document.getElementById('particle-canvas');
+            const ctx = canvas.getContext('2d');
+            let width, height;
+            const particles = [];
+            const MAX_PARTICLES = 80;
+            let mouseX = -1000,
+                mouseY = -1000;
+            let isMouseDown = false;
+
+            function resize() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            class Particle {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    this.size = Math.random() * 6 + 2;
+                    this.speedX = (Math.random() - 0.5) * 2;
+                    this.speedY = (Math.random() - 0.5) * 2 - 1;
+                    this.life = 1;
+                    this.decay = 0.008 + Math.random() * 0.015;
+                    this.color = `hsl(${Math.random() * 40 + 30}, 100%, 60%)`; // 金色/红色/橙色系
+                }
+
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    this.life -= this.decay;
+                    this.size *= 0.995;
+                }
+
+                draw() {
+                    ctx.save();
+                    ctx.globalAlpha = this.life * 0.9;
+                    ctx.shadowColor = this.color;
+                    ctx.shadowBlur = 20;
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    // 画成星星或方形，更抽象
+                    const s = this.size;
+                    ctx.rect(this.x - s / 2, this.y - s / 2, s, s);
+                    ctx.fill();
+                    // 加一个小十字
+                    ctx.shadowBlur = 10;
+                    ctx.fillRect(this.x - s / 4, this.y - s / 2, s / 2, s);
+                    ctx.fillRect(this.x - s / 2, this.y - s / 4, s, s / 2);
+                    ctx.restore();
+                }
+            }
+
+            function addParticles(x, y, count) {
+                for (let i = 0; i < count; i++) {
+                    if (particles.length >= MAX_PARTICLES) {
+                        particles.shift();
+                    }
+                    const p = new Particle(x + (Math.random() - 0.5) * 30, y + (Math.random() - 0.5) * 30);
+                    p.speedX = (Math.random() - 0.5) * 4;
+                    p.speedY = (Math.random() - 0.5) * 4 - 1;
+                    particles.push(p);
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+
+                // 鼠标移动持续产生粒子
+                if (mouseX > 0 && mouseY > 0) {
+                    addParticles(mouseX, mouseY, 2);
+                }
+
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    const p = particles[i];
+                    p.update();
+                    if (p.life <= 0 || p.size < 0.3) {
+                        particles.splice(i, 1);
+                        continue;
+                    }
+                    p.draw();
+                }
+
+                // 如果鼠标按下，增加爆发粒子
+                if (isMouseDown && mouseX > 0 && mouseY > 0) {
+                    addParticles(mouseX, mouseY, 5);
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+
+            // 事件监听
+            window.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            window.addEventListener('mousedown', () => {
+                isMouseDown = true;
+            });
+            window.addEventListener('mouseup', () => {
+                isMouseDown = false;
+            });
+
+            // 触摸设备支持
+            window.addEventListener('touchmove', (e) => {
+                const touch = e.touches[0];
+                if (touch) {
+                    mouseX = touch.clientX;
+                    mouseY = touch.clientY;
+                }
+            }, { passive: true });
+
+            window.addEventListener('touchstart', (e) => {
+                const touch = e.touches[0];
+                if (touch) {
+                    mouseX = touch.clientX;
+                    mouseY = touch.clientY;
+                }
+                isMouseDown = true;
+            }, { passive: true });
+
+            window.addEventListener('touchend', () => {
+                isMouseDown = false;
+            }, { passive: true });
+
+        })();
+
+        // ============================================================
+        // 2. 随机更改图片（增加抽象感：每次刷新可能不同）
+        // ============================================================
+        (function() {
+            // 使用 picsum 获取随机种子图片，也可以替换为真实的康神图床链接
+            // 这里为了演示，使用 picsum 加上固定种子，但你可以替换成任何高清图
+            const img = document.querySelector('.image-wrapper img');
+            // 如果你有真实图片链接，可以替换下面的数组
+            const imageUrls = [
+                'https://i1.hdslb.com/bfs/archive/66e7b300602b3a8a097b48ed88975961bd92a8be.jpg@672w_378h_1c_!web-search-common-cover.avif',
+            ];
+            // 随机选一张 (每次刷新不同)
+            const randomIndex = Math.floor(Math.random() * imageUrls.length);
+            // 如果你想固定一张，可以注释掉上面，改用下面这行
+            // img.src = 'https://picsum.photos/seed/zmjjkk/400/400';
+            img.src = imageUrls[randomIndex];
+            // 加上alt
+            img.alt = '?';
+        })();
+    </script>
+</body>
+</html>
